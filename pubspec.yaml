@@ -39,6 +39,12 @@ dependencies:
   flutter_polyline_points: ^2.0.0
   geolocator: ^10.1.0
   palette_generator: ^0.3.3+3
+  apple_maps_flutter: ^1.2.0
+  platform_maps_flutter: ^1.0.2
+  path_provider: ^2.1.1
+  dynamic_image_crop: ^0.0.9
+  pick_color: ^0.0.4
+  # bitmap: ^0.1.2
 
 dev_dependencies:
   flutter_test:

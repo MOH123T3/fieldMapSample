@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 @immutable
 class ImageColors extends StatefulWidget {
-  const ImageColors({super.key});
+  final Uint8List image;
+
+  ImageColors({super.key, required this.image});
 
   @override
   State<ImageColors> createState() {
@@ -32,12 +35,11 @@ class _ImageColorsState extends State<ImageColors> {
   Future<PaletteGenerator> _updatePaletteGenerator() async {
     paletteGenerator = await PaletteGenerator.fromImageProvider(
       // Image.asset('assets/i.jpg').image,
-      Image.asset('assets/f.png').image,
+      // Image.asset('assets/f.png').image,
+      Image.memory(widget.image).image,
       // Image.asset('assets/v.jpeg').image,
       // Image.asset('assets/e.png').image,
     );
-
-    print('itemBackgroundColor - ${paletteGenerator}');
 
     paletteGeneratorList.add(paletteGenerator);
 
@@ -61,7 +63,7 @@ class _ImageColorsState extends State<ImageColors> {
               return Container();
             }
             for (final Color color in paletteGen.colors) {
-              swatches.add(PaletteSwatch(color: color));
+              swatches.add(PaletteSwatch(label: "ACC", color: color));
             }
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,8 +72,11 @@ class _ImageColorsState extends State<ImageColors> {
                 SizedBox(
                   height: 400,
                   width: 200,
-                  child: Image.asset('assets/f.png'),
+                  // child: Image.asset('assets/f.png'),
+                  child: Image.memory(widget.image),
                 ),
+                PaletteSwatch(
+                    label: 'A', color: paletteGen.dominantColor?.color),
                 PaletteSwatch(
                     label: 'Dominant', color: paletteGen.dominantColor?.color),
                 PaletteSwatch(
@@ -116,7 +121,7 @@ class PaletteSwatch extends StatelessWidget {
           ? const Placeholder(
               fallbackWidth: 34.0,
               fallbackHeight: 20.0,
-              color: Color(0xff404040),
+              color: Color.fromARGB(255, 42, 3, 236),
             )
           : Container(
               decoration: BoxDecoration(color: color, border: Border.all()),
