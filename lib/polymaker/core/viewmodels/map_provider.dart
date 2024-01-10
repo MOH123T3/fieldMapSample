@@ -175,7 +175,7 @@ class MapProvider extends ChangeNotifier {
     _onInitCamera = true;
     try {
       Position currentPos = await Geolocator.getCurrentPosition();
-      _sourceLocation = LatLng(21.306365, 70.039890);
+      _sourceLocation = LatLng(21.900486, 70.202057);
 
       // LatLng(currentPos.latitude, currentPos.longitude);
       _onInitCamera = false;

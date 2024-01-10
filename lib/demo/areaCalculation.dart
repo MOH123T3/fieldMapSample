@@ -1,7 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_map_demo/main.dart';
 import 'package:google_map_demo/polymaker/core/models/trackingmode.dart';
 import 'package:google_map_demo/polymarkerDemoTwo/mapDemo.dart';
+import 'package:google_map_demo/weatherInfo/weatherInfo.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui';
 import 'package:flutter/rendering.dart';
@@ -87,10 +90,12 @@ class _HomeBodyState extends State<HomeBody> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return HomePage();
-              })),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return HomePage();
+                }));
+              },
               child: Text(
                 "2",
                 style: TextStyle(fontSize: 16, color: Colors.white),
@@ -112,6 +117,25 @@ class _HomeBodyState extends State<HomeBody> {
               })),
               child: Text(
                 "User Interface",
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 45,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return WeatherInfo();
+              })),
+              child: Text(
+                "Weather Information",
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),

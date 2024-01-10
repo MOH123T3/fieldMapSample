@@ -166,14 +166,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  flutter_map_math:
-    dependency: "direct main"
-    description:
-      name: flutter_map_math
-      sha256: "4ac7e68a0862cb22a49484e5ae5c8ed01794fd3d58e85362cf3c3cf2c1b8cf2e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.7"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -717,6 +709,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  weather:
+    dependency: "direct main"
+    description:
+      name: weather
+      sha256: "5ad1d5b77051aa524049fc0abf1076ac4533e91e0176b0a4bab1182a2d6f921b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   win32:
     dependency: transitive
     description:

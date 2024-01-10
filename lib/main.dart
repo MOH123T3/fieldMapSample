@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// // ignore_for_file: prefer_const_constructors
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_map_math/flutter_geo_math.dart';
 import 'package:geojson_vi/geojson_vi.dart';
+import 'package:google_map_demo/area_math.dart';
 import 'package:google_map_demo/colorPicker.dart';
 import 'package:google_map_demo/cropImmage.dart';
 import 'package:google_map_demo/demo/areaCalculation.dart';
@@ -53,12 +53,14 @@ class _HomePageState extends State<HomePage> {
   double area = 0.0;
 // list of locations to display polylines
   List<LatLng> latLen = [
-    // LatLng(23.042539, 72.517414),
-    // LatLng(23.042290, 72.517296),
-    // LatLng(23.042045, 72.517167),
-    // LatLng(23.042193, 72.516792),
-    // LatLng(23.042499, 72.516926),
+    LatLng(23.042539, 72.517414),
+    LatLng(23.042290, 72.517296),
+    LatLng(23.042045, 72.517167),
+    LatLng(23.042193, 72.516792),
+    LatLng(23.042499, 72.516926),
   ];
+
+  double distanceThreshold = 3.0;
 
   List<Point<double>> coordinates = [
     // Point(23.7749, -122.4194), // Example coordinate 1
@@ -90,6 +92,8 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     _getUserLocation();
+
+    getProximity();
   }
 
   @override
@@ -351,4 +355,188 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
+  getProximity() {
+    double distanceThreshold = 3.0;
+    List<LatLng> nearbyPoints = [];
+
+    for (LatLng point in latLen) {
+      double distance = sqrt(
+          pow(_initialPosition.latitude - point.latitude, 2) +
+              pow(_initialPosition.longitude - point.longitude, 2));
+      if (distance <= distanceThreshold) {
+        nearbyPoints.add(point);
+      }
+
+      var result = sqrt(9.3);
+
+      print('point. --  $point');
+    }
+    print('nearbyPoints -- ${nearbyPoints}');
+    return nearbyPoints;
+  }
 }
+
+// ignore_for_file: sort_child_properties_last, unnecessary_new, library_private_types_in_public_api
+
+// import 'dart:math';
+
+// import 'package:flutter/material.dart';
+
+// void main() => runApp(const MyApp());
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Area Calculator App',
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Area Calculator'),
+//         ),
+//         body: const AreaCalculator(),
+//       ),
+//     );
+//   }
+// }
+
+// class AreaCalculator extends StatefulWidget {
+//   const AreaCalculator({super.key});
+
+//   @override
+//   _AreaCalculatorState createState() => _AreaCalculatorState();
+// }
+
+// class _AreaCalculatorState extends State<AreaCalculator> {
+//   List<String> shapes = ['Rectangle', 'Triangle', 'Octagon'];
+//   String currentShape = '';
+//   String result = '0';
+//   double width = 0;
+//   double height = 0;
+
+//   final TextEditingController widthController = TextEditingController();
+//   final TextEditingController heightController = TextEditingController();
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     result = '0';
+//     currentShape = 'Rectangle';
+//     widthController.addListener(updateWidth);
+//     heightController.addListener(updateHeight);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//         margin: const EdgeInsets.only(top: 15.0),
+//         child: Column(
+//           children: <Widget>[
+//             //dropdown
+//             DropdownButton<String>(
+//                 value: currentShape,
+//                 items: shapes.map((String value) {
+//                   return new DropdownMenuItem<String>(
+//                     value: value,
+//                     child: Text(
+//                       value,
+//                       style: const TextStyle(fontSize: 24.0),
+//                     ),
+//                   );
+//                 }).toList(),
+//                 onChanged: (shape) {
+//                   setState(() {
+//                     currentShape = shape ?? 'Rectangle';
+//                   });
+//                 }),
+//             //width
+//             AreaTextField(widthController, 'Width'),
+//             //height
+//             AreaTextField(heightController, 'Height'),
+//             Container(
+//               margin: const EdgeInsets.all(15.0),
+//               child: ElevatedButton(
+//                 child: const Text(
+//                   'Calculate Area',
+//                   style: TextStyle(fontSize: 18.0),
+//                 ),
+//                 onPressed: calculateArea,
+//               ),
+//             ),
+//             Text(
+//               result,
+//               style: TextStyle(
+//                 fontSize: 24.0,
+//                 color: Colors.green[700],
+//               ),
+//             ),
+//           ],
+//         ));
+//   }
+
+//   void calculateArea() {
+//     double area;
+
+//     if (currentShape == 'Rectangle') {
+//       area = width * height;
+//     } else if (currentShape == 'Triangle') {
+//       area = width * height / 2;
+//     } else if (currentShape == 'Octagon') {
+//       area = 2 * (1 + sqrt(2)) * width * height;
+//     } else {
+//       area = 0;
+//     }
+//     setState(() {
+//       result = 'The area is ' + area.toString();
+//     });
+//   }
+
+//   void updateWidth() {
+//     setState(() {
+//       if (widthController.text != '') {
+//         width = double.parse(widthController.text);
+//       } else {
+//         width = 0;
+//       }
+//     });
+//   }
+
+//   void updateHeight() {
+//     setState(() {
+//       if (heightController.text != '') {
+//         height = double.parse(heightController.text);
+//       } else {
+//         height = 0;
+//       }
+//     });
+//   }
+// }
+
+// class AreaTextField extends StatelessWidget {
+//   AreaTextField(this.controller, this.hint, {super.key});
+
+//   final TextEditingController controller;
+//   final String hint;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//         margin: const EdgeInsets.all(15.0),
+//         child: TextField(
+//           controller: controller,
+//           keyboardType: TextInputType.number,
+//           style: TextStyle(
+//               color: Colors.green[700],
+//               fontWeight: FontWeight.w300,
+//               fontSize: 24.0),
+//           decoration: InputDecoration(
+//             prefixIcon: const Icon(Icons.border_all),
+//             filled: true,
+//             fillColor: Colors.grey[300],
+//             hintText: hint,
+//           ),
+//         ));
+//   }
+// }

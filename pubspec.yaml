@@ -45,7 +45,6 @@ dependencies:
   dynamic_image_crop: ^0.0.9
   pick_color: ^0.0.4
   location: ^5.0.3
-  flutter_map_math: ^0.1.7
   # bitmap: ^0.1.2
   geojson_vi: ^2.2.1
   provider: ^6.1.1
@@ -53,6 +52,8 @@ dependencies:
   geodesy: ^0.5.0
   turf: 
   dart_jts: ^0.3.0+1
+  weather: ^3.1.1
+
 
 
 
