@@ -23,14 +23,15 @@ class WeatherInfo extends StatefulWidget {
 class WeatherInfoState extends State<WeatherInfo> {
   String key = '5c6781917790726320ea8bdefcec7911';
   late WeatherFactory ws;
-  List<Weather> _data = [];
-  List<Weather> forecast = [];
+
   double? lat, lon;
   LatLng _initialPosition = LatLng(22.98609270408351, 72.55394160747528);
   String? countryValue = "";
   String? stateValue = "";
   String? cityValue = "";
   String address = "";
+  List temperature = [];
+  List date = [];
 
   @override
   void initState() {
@@ -437,7 +438,7 @@ class WeatherInfoState extends State<WeatherInfo> {
                         SizedBox(
                           height: 4.h,
                         ),
-                        temperatureChart(),
+                        temperatureChart(temperature, date),
                         SizedBox(
                           height: 4.h,
                         ),
@@ -459,105 +460,176 @@ class WeatherInfoState extends State<WeatherInfo> {
                               ],
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
+                          child: SizedBox(
+                            height: 52.h,
+                            child: GridView(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 6),
+                                shrinkWrap: true,
+                                physics: AlwaysScrollableScrollPhysics(),
                                 padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30)),
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Colors.greenAccent,
-                                        Colors.green,
-                                      ],
-                                    )),
-                                height: 5.h,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 10.w, child: clouds(13.sp)),
-                                    SizedBox(
-                                      width: 13.w,
-                                      child: headingTextStyle("Date"),
-                                    ),
-                                    SizedBox(
-                                      width: 16.w,
-                                      child: headingTextStyle(
-                                        'Temperature',
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15.w,
-                                      child: headingTextStyle(
-                                        'Wind Speed',
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15.w,
-                                      child: headingTextStyle(
-                                        'Raining',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 52.h,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.all(8),
-                                    itemCount: forecast.length,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8, bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                                width: 10.w,
-                                                child: clouds(13.sp)),
-                                            SizedBox(
-                                              width: 15.w,
-                                              child: subTextStyle(
-                                                  "${DateFormat.d().format(DateTime.parse(forecast[index].date.toString()))} ${DateFormat.E().format(DateTime.parse(forecast[index].date.toString()))} ${DateFormat.jmv().format(DateTime.parse(forecast[index].date.toString()))}"),
-                                            ),
-                                            SizedBox(
-                                                width: 15.w,
-                                                child: subTextStyle(
-                                                  forecast[index]
-                                                      .temperature
-                                                      .toString()
-                                                      .replaceAll(
-                                                          'Celsius', '°'),
-                                                )),
-                                            SizedBox(
-                                              width: 15.w,
-                                              child: subTextStyle(
-                                                  "${forecast[index].windSpeed.toString()} km/h"),
-                                            ),
-                                            SizedBox(
-                                              width: 15.w,
-                                              child: subTextStyle(
-                                                  "${forecast[index].rainLastHour ?? "Not Raining"}"),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            ],
+                                children: [
+                                  gridData("country",
+                                      snapshot.data?.location?.country),
+                                  gridData(
+                                      "Data", snapshot.data?.location?.country),
+                                  gridData("lat", snapshot.data?.location?.lat),
+                                  gridData("lon", snapshot.data?.location?.lon),
+                                  gridData("localtime",
+                                      snapshot.data?.location?.localtime),
+                                  gridData("localtimeEpoch",
+                                      snapshot.data?.location?.localtimeEpoch),
+                                  gridData(
+                                      "name", snapshot.data?.location?.name),
+                                  gridData("region",
+                                      snapshot.data?.location?.region),
+                                  gridData(
+                                      "tzId", snapshot.data?.location?.tzId),
+                                  gridData("cloud",
+                                      "${snapshot.data?.current?.cloud}%"),
+                                  gridData("condition",
+                                      snapshot.data?.current?.condition?.text),
+                                  gridData("feelslikeC",
+                                      snapshot.data?.current?.feelslikeC),
+                                  gridData("feelslikeF",
+                                      snapshot.data?.current?.feelslikeF),
+                                  gridData("gustKph",
+                                      snapshot.data?.current?.gustKph),
+                                  gridData("gustMph",
+                                      snapshot.data?.current?.gustMph),
+                                  gridData("humidity",
+                                      snapshot.data?.current?.humidity),
+                                  gridData(
+                                      "isDay", snapshot.data?.current?.isDay),
+                                  gridData("lastUpdated",
+                                      snapshot.data?.current?.lastUpdated),
+                                  gridData("lastUpdatedEpoch",
+                                      snapshot.data?.current?.lastUpdatedEpoch),
+                                  gridData("precipIn",
+                                      snapshot.data?.current?.precipIn),
+                                  gridData("precipMm",
+                                      snapshot.data?.current?.precipMm),
+                                  gridData("pressureIn",
+                                      snapshot.data?.current?.pressureIn),
+                                  gridData("pressureMb",
+                                      snapshot.data?.current?.pressureMb),
+                                  gridData(
+                                      "tempC", snapshot.data?.current?.tempC),
+                                  gridData(
+                                      "tempF", snapshot.data?.current?.tempF),
+                                  gridData("uv", snapshot.data?.current?.uv),
+                                  gridData(
+                                      "visKm", snapshot.data?.current?.visKm),
+                                  gridData("visMiles",
+                                      snapshot.data?.current?.visMiles),
+                                  gridData("windDegree",
+                                      snapshot.data?.current?.windDegree),
+                                  gridData("windDir",
+                                      snapshot.data?.current?.windDir),
+                                  gridData("windKph",
+                                      snapshot.data?.current?.windKph),
+                                  gridData("windMph",
+                                      snapshot.data?.current?.windMph),
+                                ]),
                           ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 0.1, blurStyle: BlurStyle.solid)
+                              ],
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.white,
+                                  Colors.green,
+                                ],
+                              )),
+                          height: 40.h,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: GoogleMap(
+                              onTap: (argument) async {
+                                _initialPosition = argument;
+                                // setState(() {});
+
+                                List<Placemark> placemarks =
+                                    await placemarkFromCoordinates(
+                                        argument.latitude, argument.longitude);
+
+                                Placemark place1 = placemarks[0];
+                                Placemark place2 = placemarks[1];
+                                String _currentAddress =
+                                    "${place1.country} ${place2.isoCountryCode} ${place1.locality} ${place1.name} ${place1.postalCode}${place1.street}${place1.subAdministrativeArea}${place1.subLocality}${place1.subThoroughfare}${place1.thoroughfare}";
+                                print(
+                                    "================================= $_currentAddress");
+
+                                // queryWeather();
+                              },
+
+                              initialCameraPosition: CameraPosition(
+                                target: _initialPosition,
+                                zoom: 5,
+                              ),
+                              mapType: MapType.hybrid,
+                              // markers: _markers,
+                              myLocationEnabled: true,
+                              zoomControlsEnabled: true,
+                              myLocationButtonEnabled: true,
+                              compassEnabled: true,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                          alignment: Alignment.center,
+                          height: 6.h,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.black,
+                                  Colors.green,
+                                ],
+                              ),
+                              boxShadow: [BoxShadow(blurRadius: 1)],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Search',
+                                    style: TextStyle(
+                                        fontSize: 15.sp, color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    width: 1.w,
+                                  ),
+                                  Icon(
+                                    Icons.search,
+                                    color: Colors.white,
+                                    size: 15.sp,
+                                  )
+                                ],
+                              )),
                         ),
                       ],
                     ),
@@ -575,7 +647,9 @@ class WeatherInfoState extends State<WeatherInfo> {
                     ],
                   )),
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Colors.green,
+                    ),
                   ),
                 );
               } else {
@@ -621,21 +695,6 @@ class WeatherInfoState extends State<WeatherInfo> {
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
     );
-  }
-
-  queryWeather() async {
-    FocusScope.of(context).requestFocus(FocusNode());
-
-    forecast = await ws.fiveDayForecastByLocation(
-        _initialPosition.latitude, _initialPosition.longitude);
-
-    Weather weather = await ws.currentWeatherByLocation(
-        _initialPosition.latitude, _initialPosition.longitude);
-    setState(() {
-      _data = [weather];
-    });
-
-    return _data;
   }
 
   showAlertDialog(BuildContext context) {
@@ -723,6 +782,31 @@ class WeatherInfoState extends State<WeatherInfo> {
     print(ApiPath.address);
     var response = await ResponseClass.getApi(ApiPath.forecastUrl);
     AddressName addressName = AddressName.fromJson(jsonDecode(response.body));
+    temperature.clear();
+    date.clear();
+    for (var i = 0; i < addressName.forecast!.forecastday!.length; i++) {
+      temperature
+          .add(addressName.forecast?.forecastday?[i].day?.maxtempC.toString());
+      date.add(addressName.forecast?.forecastday?[i].date);
+    }
     return addressName;
+  }
+
+  gridData(headingName, data) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      width: 15.w,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          headingTextStyle(headingName),
+          SizedBox(
+            height: 1.h,
+          ),
+          subTextStyle("${data}")
+        ],
+      ),
+    );
   }
 }
