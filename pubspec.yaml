@@ -53,6 +53,10 @@ dependencies:
   turf: 
   dart_jts: ^0.3.0+1
   weather: ^3.1.1
+  sizer: ^2.0.15
+  csc_picker: ^0.2.7
+  geocoding: ^2.1.1
+  syncfusion_flutter_charts: ^21.2.4
 
 
 
